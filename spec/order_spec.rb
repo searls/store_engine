@@ -6,7 +6,8 @@ require 'order'
 
 describe Order do
   Given(:user) { gimme }
-  subject { Order.new(user: user) }
+  Given(:product) { gimme }
+  subject { Order.new(user: user, products: [product]) }
 
   describe "validation" do
     context "already valid" do
@@ -15,6 +16,11 @@ describe Order do
 
     context "without a user" do
       When { subject.user = nil }
+      Then { subject.should_not be_valid }
+    end
+
+    context "with 0 products" do
+      When { subject.products = [] }
       Then { subject.should_not be_valid }
     end
   end
